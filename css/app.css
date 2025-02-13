@@ -1,0 +1,38 @@
+/* The Css style that is specific to the style of the tic tac toe app only */
+
+body {
+    background: rgba(125, 125, 125, 0.5);
+}
+
+.game-section {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    background-image: linear-gradient(147deg, rgba(200,200,200,0.9) 0%, rgba(75,75,75,0.5) 74%);
+    align-items: center;
+    justify-content: center;
+}
+
+.inner-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-container {
+    display: flex;
+    width: 600px;
+    height: 600px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    position: relative;
+    border: solid black 2px;
+}
