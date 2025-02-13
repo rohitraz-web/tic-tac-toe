@@ -1,0 +1,1 @@
+// The file contain all the main component related to game like handling events or chossing theam 
