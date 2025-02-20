@@ -1,5 +1,23 @@
 /* The Css style that is specific to the style of the tic tac toe app only */
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.roboto-slab-1 {
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.roboto-1 {
+    font-family: "Roboto", serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    font-variation-settings:
+    "wdth" 100;
+}
+
 body {
     background: rgba(125, 125, 125, 0.5);
 }
@@ -34,5 +52,7 @@ body {
     flex-wrap: nowrap;
     overflow: hidden;
     position: relative;
-    border: solid black 2px;
+    border-radius: 20px;
+    border: solid rgba(200, 200, 200, 0.7) 1px;
+    box-shadow: 10px 10px 50px rgba(200, 200, 200, 1), -10px -10px 50px rgba(0, 0, 0, 1);
 }

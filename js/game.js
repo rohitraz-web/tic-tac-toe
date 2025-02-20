@@ -1,12 +1,18 @@
 // The file contain all the main component related to game like handling events or chossing theam 
 class Game {
 
-    static PLAYING = 0;
+    static PAUSE = 0;
+    static PLAYING = 1;
+    static LOADING = 2;
+    static READY = 3;
+    
+    gameTheam = 'theam1';
 
     // TODO: Implement the constructor of the game
     constructor() {
         
         this.init();
+        this.gameEventListeners();
     }
 
 
@@ -14,7 +20,7 @@ class Game {
     // TODO: First method to run when game will start
     init() {
         this.hideScreens();
-        this.loadTheam('theam1').then(()=> {
+        this.loadTheam(this.gameTheam).then(()=> {
             this.showScreen('main-menu');
         });
     }
@@ -81,8 +87,11 @@ class Game {
     }
 
     // TODO: Hide a single screen by their ID.
-    hideScreen() {
-
+    hideScreen(elementId) {
+        let displayElement = document.getElementById(elementId);
+        if(displayElement){
+            displayElement.style.display = 'none';
+        }
     }
 
     // TODO: Implement Show a single screen by their id.
@@ -99,5 +108,48 @@ class Game {
     // TODO: Implement the method to restart the game.
     restartGame() {
 
+    }
+
+    // TODO: Add Event listener to the game
+    gameEventListeners(){
+
+        // Add Event listener to the game container
+        let gameContainer = document.getElementById('game-container');
+        gameContainer.addEventListener('click', this.navigateGame.bind(this));
+        console.log('Evenet listener attached');
+    }
+
+    // TODO: Implement the navigation of game
+    navigateGame(event) {
+        console.log(event.target.id);
+        let menuId = event.target.id; 
+        // Chosing an option to navigate
+        
+        // TODO: Implement the navigation menu
+        switch(menuId){
+            case 'pwai' :
+                // TODO: Create board ask player name if already not exist and start the game 
+                this.hideScreens('game-screen');
+                this.showScreen('input-name');
+
+            break;
+
+            case 'pwf' :
+                // TODO: Create board ask player's name if already not exist for both player and start the game  
+            break;
+
+            case 'settings' :
+                // TODO: Show the settings screen
+            break;
+
+            case 'about' :
+                // TODO: Show the about screen of specific Theam
+
+            break;
+
+            case 'exit':
+                //TODO: Save player name, Game state and exit the game 
+            break;
+        }
     }
 }
