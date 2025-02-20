@@ -72,7 +72,9 @@ class Game {
 
         let theamImp = new TheamImp();
         let gameContainer = document.getElementById('game-container');
-        let gameHtml = theamImp.mainMenu();
+        // let gameHtml = theamImp.mainMenu();
+        // let gameHtml = theamImp.inputName();
+        let gameHtml = theamImp.gameBoard();
         gameContainer.innerHTML = gameHtml;
         console.log('theam loaded successfylly');
         return "Theam loaded"; 
@@ -150,6 +152,20 @@ class Game {
             case 'exit':
                 //TODO: Save player name, Game state and exit the game 
             break;
+
+            case 'ai-enter-name':
+                // TODO: To enter player name who is playing game against AI
+                let inputElement = document.getElementById('name-input');
+                console.log('Your name is ', inputElement.value);
+                this.hideScreen('input-name-div');
+                this.showScreen('game-board');
+                // this.enterName(event.target)
+            break;
         }
+    }
+
+    enterName(element) {
+        let value = element.value;
+        console.log('YOur name is  ', value);
     }
 }
