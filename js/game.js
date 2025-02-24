@@ -7,12 +7,14 @@ class Game {
     static READY = 3;
     
     gameTheam = 'theam1';
+    theamImp = {}           // Imported theam object
 
     // TODO: Implement the constructor of the game
     constructor() {
         
         this.init();
         this.gameEventListeners();
+        this.theamImp = {};
     }
 
 
@@ -21,7 +23,7 @@ class Game {
     init() {
         this.hideScreens();
         this.loadTheam(this.gameTheam).then(()=> {
-            this.showScreen('main-menu');
+            // this.showScreen('main-menu');
         });
     }
     
@@ -70,12 +72,16 @@ class Game {
 
         console.log(await loadingJs);
 
-        let theamImp = new TheamImp();
+        this.theamImp = new TheamImp();
         let gameContainer = document.getElementById('game-container');
-        // let gameHtml = theamImp.mainMenu();
-        // let gameHtml = theamImp.inputName();
-        let gameHtml = theamImp.gameBoard();
+        let gameHtml = this.theamImp.mainMenu();
+        gameHtml += this.theamImp.inputName();
+        gameHtml += this.theamImp.gameBoard();
         gameContainer.innerHTML = gameHtml;
+
+        // Making main menu visible
+        gameContainer.querySelector('#main-menu').style.display = 'flex';
+
         console.log('theam loaded successfylly');
         return "Theam loaded"; 
     } 
@@ -98,8 +104,9 @@ class Game {
 
     // TODO: Implement Show a single screen by their id.
     showScreen(elementid) {
+        console.log('Element id is', elementid)
         let element = document.getElementById(elementid);
-        element.style.display = 'block';
+        element.style.display = 'flex';
     }
 
     // TODO: Implement the method to start the game.
@@ -121,6 +128,12 @@ class Game {
         console.log('Evenet listener attached');
     }
 
+    removeGameEventListener() {
+        let gameContainer = document.getElementById('game-container');
+        gameContainer.removeEventListener('click', this.navigateGame.bind(this));
+        console.log('Event listener removed');
+    }
+
     // TODO: Implement the navigation of game
     navigateGame(event) {
         console.log(event.target.id);
@@ -132,16 +145,18 @@ class Game {
             case 'pwai' :
                 // TODO: Create board ask player name if already not exist and start the game 
                 this.hideScreens('game-screen');
-                this.showScreen('input-name');
+                this.showScreen('input-name-div');
 
             break;
 
             case 'pwf' :
-                // TODO: Create board ask player's name if already not exist for both player and start the game  
+                // TODO: Create board ask player's name if already not exist for both player and start the game
+                
             break;
 
             case 'settings' :
                 // TODO: Show the settings screen
+
             break;
 
             case 'about' :
@@ -158,8 +173,16 @@ class Game {
                 let inputElement = document.getElementById('name-input');
                 console.log('Your name is ', inputElement.value);
                 this.hideScreen('input-name-div');
-                this.showScreen('game-board');
+                this.showScreen('game-board-div');
                 // this.enterName(event.target)
+                // TODO: After name is entred start the game. 
+                let board = new Board();
+                let boardElement = document.getElementById('game-board');
+                boardElement.addEventListener('click', board.handleEvent.bind(board));
+                this.removeGameEventListener();
+                board.playerTurn = 'x';
+                board.theam = this.theamImp;
+
             break;
         }
     }

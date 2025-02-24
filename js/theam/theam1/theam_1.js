@@ -36,11 +36,39 @@ class TheamImp extends Theam {
     // TODO: Implement game board
     gameBoard() {
         return `
-            <div class='main-div game-screen' id='input-name-div'>
-                    <div class='game-board'>
-                        
+            <div class='main-div game-screen' id='game-board-div'>
+                    <div class='game-board' id='game-board'>
+                        <div class="game-cell" data-cellno="1" data-hover='true'></div>
+                        <div class="game-cell" data-cellno="2" data-hover='true'></div>
+                        <div class="game-cell" data-cellno="3" data-hover='true'></div>
+                        <div class="game-cell" data-cellno="4" data-hover='true'></div>
+                        <div class="game-cell" data-cellno="5" data-hover='true'></div>
+                        <div class="game-cell" data-cellno="6" data-hover='true'></div>
+                        <div class="game-cell" data-cellno="7" data-hover='true'></div>
+                        <div class="game-cell" data-cellno="8" data-hover='true'></div>
+                        <div class="game-cell" data-cellno="9" data-hover='true'></div>
                     </div>
                 </div>
         `;
+    }
+
+    topDisplay() {
+
+    }
+
+    bottomDisplay() {
+        
+    }
+
+    xSymbol() {
+        return `
+            <div class='x-symbol'></div>
+        `
+    }
+
+    oSymbol() {
+        return `
+            <div class='o-symbol'></div>
+        `
     }
 }
