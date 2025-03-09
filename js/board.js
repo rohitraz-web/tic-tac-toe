@@ -45,7 +45,7 @@ class Board {
                 break;
             default:
                 console.error('No player turn assigende');
-                return;
+                returnr
         }
         this.gameTurn++;
 
@@ -58,8 +58,38 @@ class Board {
         this.checkWinner();
     }
 
+    // Function to check for the winner
     checkWinner() {
+        const winningCombinations = [
+            // Rows
+            [ [0, 0], [0, 1], [0, 2] ],
+            [ [1, 0], [1, 1], [1, 2] ],
+            [ [2, 0], [2, 1], [2, 2] ],
+            // Columns
+            [ [0, 0], [1, 0], [2, 0] ],
+            [ [0, 1], [1, 1], [2, 1] ],
+            [ [0, 2], [1, 2], [2, 2] ],
+            // Diagonals
+            [ [0, 0], [1, 1], [2, 2] ],
+            [ [0, 2], [1, 1], [2, 0] ]
+        ];
 
+        for (let combination of winningCombinations) {
+            const [a, b, c] = combination;
+            if (this.gameArr[a[0]][a[1]] && 
+            this.gameArr[a[0]][a[1]] === this.gameArr[b[0]][b[1]] && 
+            this.gameArr[a[0]][a[1]] === this.gameArr[c[0]][c[1]]) {
+            console.log(`Player ${this.gameArr[a[0]][a[1]]} wins!`);
+
+            // Pop out the message
+            
+            return;
+            }
+        }
+
+        if (this.gameTurn === 9) {
+            console.log("It's a draw!");
+        }
     }
 
     updateBoard() {
