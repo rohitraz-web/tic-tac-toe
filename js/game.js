@@ -23,7 +23,8 @@ class Game {
     init() {
         this.hideScreens();
         this.loadTheam(this.gameTheam).then(()=> {
-            // this.showScreen('main-menu');
+            console.log('Theam loaded successfully. in main menu')
+            this.showScreen('main-menu');
         });
     }
     
@@ -78,6 +79,8 @@ class Game {
         gameHtml += this.theamImp.inputName();
         gameHtml += this.theamImp.gameBoard();
         gameContainer.innerHTML = gameHtml;
+        gameContainer.insertAdjacentHTML('afterbegin', this.theamImp.topDisplay())
+        gameContainer.insertAdjacentHTML('beforeend', this.theamImp.bottomDisplay())
 
         // Making main menu visible
         gameContainer.querySelector('#main-menu').style.display = 'flex';
@@ -174,6 +177,8 @@ class Game {
                 console.log('Your name is ', inputElement.value);
                 this.hideScreen('input-name-div');
                 this.showScreen('game-board-div');
+                this.showScreen('top-display');
+                this.showScreen('bottom-display');
                 // this.enterName(event.target)
                 // TODO: After name is entred start the game. 
                 let board = new Board();

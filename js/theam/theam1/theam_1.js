@@ -53,11 +53,33 @@ class TheamImp extends Theam {
     }
 
     topDisplay() {
-
+        return `
+            <div class="info-display game-screen" id="top-display">
+                <div>
+                    <span>Jon Doe</span>
+                </div>
+                <div>
+                    <span>Score:</span>
+                    <span>0</span>
+                </div>
+                <div></div>
+            </div>
+        `;
     }
 
     bottomDisplay() {
-        
+        return `
+            <div class="info-display game-screen" id="bottom-display">
+                <div>
+                    <span>Jon Doe2</span>
+                </div>
+                <div>
+                    <span>Score:</span>
+                    <span>0</span>
+                </div>
+                <div></div>
+            </div>
+        `;
     }
 
     xSymbol() {

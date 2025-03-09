@@ -46,9 +46,9 @@ body {
 
 .game-container {
     display: flex;
-    width: 600px;
+    width: 500px;
     height: 600px;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     overflow: hidden;
     position: relative;
