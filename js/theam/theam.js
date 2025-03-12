@@ -26,19 +26,17 @@ class Theam {
     }
 
     // TODO: Show different types of popup menu
-    popupMessage(type) {
+    popupMessage() {
         alert('pop up message is not implemented');
     }
 
     // TODO: Load Assets that is required by the theam 
     loadAsstes() {
         alert('Load assets is not implemented');
-
     } 
 
     // TODO: Show the actual game board
     board() {
         alert('Board is not implemented');
-
     }
 }

@@ -78,12 +78,16 @@ class Game {
         let gameHtml = this.theamImp.mainMenu();
         gameHtml += this.theamImp.inputName();
         gameHtml += this.theamImp.gameBoard();
+        gameHtml += this.theamImp.popupMessage();
         gameContainer.innerHTML = gameHtml;
         gameContainer.insertAdjacentHTML('afterbegin', this.theamImp.topDisplay())
         gameContainer.insertAdjacentHTML('beforeend', this.theamImp.bottomDisplay())
 
         // Making main menu visible
         gameContainer.querySelector('#main-menu').style.display = 'flex';
+
+        // Atteching event listenrs to the popupMessages
+        gameContainer.querySelector('#popup-msg-div').addEventListener('click', this.popupEventListener.bind(this));
 
         console.log('theam loaded successfylly');
         return "Theam loaded"; 
@@ -124,11 +128,13 @@ class Game {
 
     // TODO: Add Event listener to the game
     gameEventListeners(){
-
         // Add Event listener to the game container
         let gameContainer = document.getElementById('game-container');
         gameContainer.addEventListener('click', this.navigateGame.bind(this));
-        console.log('Evenet listener attached');
+        console.log('Evenet listener attached'); 
+
+        // Popup event listener
+        // let popupContainer = document.getElementById('popup-div');
     }
 
     removeGameEventListener() {
@@ -137,10 +143,33 @@ class Game {
         console.log('Event listener removed');
     }
 
+    // TODO: Handling the popup events
+    popupEventListener(event) {
+
+        let buttonClicked = false;
+
+        // Checking if home button is clicked navigate to main menu
+        if (event.target.classList.contains('home-btn') || event.target.closest('.home-btn')) {
+            buttonClicked = true;
+            this.hideScreens();
+            this.showScreen('main-menu');
+        }
+
+        // Checking if restart button is clicked restarting the game
+        if (event.target.classList.contains('restart-btn') || event.target.closest('.restart-btn')) {
+            console.log('Restart button clicked');
+        }
+
+        if(buttonClicked)
+            event.target.closest('#popup-msg-div').style.display = 'none';
+
+    }
+
     // TODO: Implement the navigation of game
     navigateGame(event) {
         console.log(event.target.id);
         let menuId = event.target.id; 
+
         // Chosing an option to navigate
         
         // TODO: Implement the navigation menu
@@ -187,7 +216,6 @@ class Game {
                 this.removeGameEventListener();
                 board.playerTurn = 'x';
                 board.theam = this.theamImp;
-
             break;
         }
     }
