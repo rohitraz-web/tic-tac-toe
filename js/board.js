@@ -6,6 +6,10 @@ class Board {
     gameTurn = 0;
     theam = {};
 
+    constructor(gameObj) {
+        this.gameObj = gameObj;
+    }
+
     init() {
 
     }
@@ -45,7 +49,7 @@ class Board {
                 break;
             default:
                 console.error('No player turn assigende');
-                returnr
+                return
         }
         this.gameTurn++;
 

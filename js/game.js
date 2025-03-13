@@ -7,16 +7,19 @@ class Game {
     static READY = 3;
     
     gameTheam = 'theam1';
-    theamImp = {}           // Imported theam object
+    currentTheam = {}           // Imported theam object
 
     // Storing information about current player
+    player1Name = '';           // Name of the primary player in the game.
+    player2Name = '';           // Name of the secondary player in the game.
+    currentPlayerSymbol = '';   // Symbol current player chosen Either 'x' or 'o'.
 
     // TODO: Implement the constructor of the game
     constructor() {
         
         this.init();
         this.gameEventListeners();
-        this.theamImp = {};
+        this.currentTheam = {};
         this.state = Game.LOADING;
     }
 
@@ -76,15 +79,15 @@ class Game {
 
         console.log(await loadingJs);
 
-        this.theamImp = new TheamImp();
+        this.currentTheam = new TheamImp();
         let gameContainer = document.getElementById('game-container');
-        let gameHtml = this.theamImp.mainMenu();
-        gameHtml += this.theamImp.inputName();
-        gameHtml += this.theamImp.gameBoard();
-        gameHtml += this.theamImp.popupMessage();
+        let gameHtml = this.currentTheam.mainMenu();
+        gameHtml += this.currentTheam.inputName();
+        gameHtml += this.currentTheam.gameBoard();
+        gameHtml += this.currentTheam.popupMessage();
         gameContainer.innerHTML = gameHtml;
-        gameContainer.insertAdjacentHTML('afterbegin', this.theamImp.topDisplay())
-        gameContainer.insertAdjacentHTML('beforeend', this.theamImp.bottomDisplay())
+        gameContainer.insertAdjacentHTML('afterbegin', this.currentTheam.topDisplay())
+        gameContainer.insertAdjacentHTML('beforeend', this.currentTheam.bottomDisplay())
 
         // Making main menu visible
         gameContainer.querySelector('#main-menu').style.display = 'flex';
@@ -220,14 +223,21 @@ class Game {
                 this.showScreen('game-board-div');
                 this.showScreen('top-display');
                 this.showScreen('bottom-display');
+
+                // Adding player information to the game object
+                this.player1Name = inputElement.value === '' ? Guest : inputElement.value;
+                this.player2Name = 'AI';
+                this.currentPlayerSymbol = 'x';
+
                 // this.enterName(event.target)
                 // TODO: After name is entred start the game. 
-                let board = new Board();
+                let board = new Board(this);
                 let boardElement = document.getElementById('game-board');
                 boardElement.addEventListener('click', board.handleEvent.bind(board));
                 this.removeGameEventListener();
-                board.playerTurn = 'x';
-                board.theam = this.theamImp;
+                board.playerTurn = this.currentPlayerSymbol;
+                board.theam = this.currentTheam;
+
             break;
         }
     }
