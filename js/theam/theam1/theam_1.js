@@ -6,6 +6,8 @@ class TheamImp extends Theam {
         super();
     }
 
+    message = '';
+
     mainMenu() {
         return `<div class='main-div game-screen' id='main-menu'>
                     <div class='menu-div'>
@@ -34,22 +36,41 @@ class TheamImp extends Theam {
     }
 
     // TODO: Implement game board
-    gameBoard() {
+    gameBoardContainer() {
         return `
             <div class='main-div game-screen' id='game-board-div'>
-                    <div class='game-board' id='game-board'>
-                        <div class="game-cell" data-cellno="1" data-hover='true'></div>
-                        <div class="game-cell" data-cellno="2" data-hover='true'></div>
-                        <div class="game-cell" data-cellno="3" data-hover='true'></div>
-                        <div class="game-cell" data-cellno="4" data-hover='true'></div>
-                        <div class="game-cell" data-cellno="5" data-hover='true'></div>
-                        <div class="game-cell" data-cellno="6" data-hover='true'></div>
-                        <div class="game-cell" data-cellno="7" data-hover='true'></div>
-                        <div class="game-cell" data-cellno="8" data-hover='true'></div>
-                        <div class="game-cell" data-cellno="9" data-hover='true'></div>
-                    </div>
+                    
                 </div>
         `;
+    }
+
+    gameBoard(gameArr = []) {
+        let boardStr = "<div class='game-board' id='game-board'>";
+        if(gameArr.length === 0){
+            for(let i = 1; i < 10; i++){
+                boardStr += `<div class="game-cell" data-cellno="${i}" data-hover='true'></div>`
+            }
+        //     return `
+            
+        //         <div class="game-cell" data-cellno="1" data-hover='true'></div>
+        //         <div class="game-cell" data-cellno="2" data-hover='true'></div>
+        //         <div class="game-cell" data-cellno="3" data-hover='true'></div>
+        //         <div class="game-cell" data-cellno="4" data-hover='true'></div>
+        //         <div class="game-cell" data-cellno="5" data-hover='true'></div>
+        //         <div class="game-cell" data-cellno="6" data-hover='true'></div>
+        //         <div class="game-cell" data-cellno="7" data-hover='true'></div>
+        //         <div class="game-cell" data-cellno="8" data-hover='true'></div>
+        //         <div class="game-cell" data-cellno="9" data-hover='true'></div>
+        //     </div>
+        // `;
+        }else {
+            for(let i = 0; i < 3; i++){
+                for(let j = 0; j < 3; j++){
+
+                }
+            }
+        }
+        return boardStr += "</div>";
     }
 
     topDisplay() {
@@ -101,11 +122,11 @@ class TheamImp extends Theam {
     // 4. WIN
     // 5. LOSE
 
-    popupMessage(msg="") {
+    popupMessage() {
         return `<div class='popup-msg-div' id='popup-msg-div'>
             
             <div class='msg error-msg'>
-                <span class='popup-header'>Oops!</span><p class='popup-content'>${ msg===undefined ||msg==="" ? "Game over, but you're not out!" : msg }</p>
+                <span class='popup-header'>Oops!</span><p class='popup-content'>${ this.message===undefined ||this.message==="" ? "Game over, but you're not out!" : msg }</p>
                 <div class='btn-div'>
                     <div class="home-btn">
                         <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor" class="size-5">
@@ -122,7 +143,7 @@ class TheamImp extends Theam {
             </div>
 
             <div class='msg info-msg'>
-                <span class='popup-header'>Info</span><p class='popup-content'>${ msg===undefined ||msg==="" ? "" : msg }</p>
+                <span class='popup-header'>Info</span><p class='popup-content'>${ this.message===undefined ||this.message==="" ? "" : msg }</p>
                 <div class='btn-div'>
                     <div class="play-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
@@ -144,7 +165,7 @@ class TheamImp extends Theam {
             </div>
 
             <div class='msg pause-msg'>
-                <span class='popup-header'>Pause</span><p class='popup-content'>${ msg===undefined ||msg==="" ? "" : msg }</p>
+                <span class='popup-header'>Pause</span><p class='popup-content'>${ this.message===undefined ||this.message==="" ? "" : msg }</p>
                 <div class='btn-div'>
                     <div class="play-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
@@ -209,7 +230,8 @@ class TheamImp extends Theam {
         }
     }
 
-    popupInfo() {
+    popupInfo(msg) {
+        this.message = msg;
         let popupDiv = document.querySelector('#popup-msg-div');
         if(popupDiv){
             popupDiv.style.display = 'flex';

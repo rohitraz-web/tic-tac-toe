@@ -12,7 +12,7 @@ class Game {
     // Storing information about current player
     player1Name = '';           // Name of the primary player in the game.
     player2Name = '';           // Name of the secondary player in the game.
-    currentPlayerSymbol = '';   // Symbol current player chosen Either 'x' or 'o'.
+    currentPlayer = '';   // Symbol current player chosen Either 'x' or 'o'.
 
     // TODO: Implement the constructor of the game
     constructor() {
@@ -83,7 +83,7 @@ class Game {
         let gameContainer = document.getElementById('game-container');
         let gameHtml = this.currentTheam.mainMenu();
         gameHtml += this.currentTheam.inputName();
-        gameHtml += this.currentTheam.gameBoard();
+        gameHtml += this.currentTheam.gameBoardContainer();
         gameHtml += this.currentTheam.popupMessage();
         gameContainer.innerHTML = gameHtml;
         gameContainer.insertAdjacentHTML('afterbegin', this.currentTheam.topDisplay())
@@ -124,12 +124,24 @@ class Game {
 
     // TODO: Implement the method to start the game.
     startGame() {
-
+        // Starting a new game with previous information
     }
 
     // TODO: Implement the method to restart the game.
     restartGame() {
+        // Restart the game with the no information change
+        this.hideScreens();
+        document.getElementById('game-board-div').innerHTML = this.currentTheam.gameBoard();
+        this.showScreen('game-board-div');
+        this.showScreen('top-display');
+        this.showScreen('bottom-display');
 
+        let board = new Board(this);
+        let boardElement = document.getElementById('game-board');
+        boardElement.addEventListener('click', board.handleEvent.bind(board));
+        this.removeGameEventListener();
+        board.playerTurn = this.currentPlayer;
+        board.theam = this.currentTheam;
     }
 
     // TODO: Add Event listener to the game
@@ -165,6 +177,7 @@ class Game {
         // Checking if restart button is clicked restarting the game
         if (event.target.classList.contains('restart-btn') || event.target.closest('.restart-btn')) {
             console.log('Restart button clicked');
+            buttonClicked = true;
             this.restartGame();
         }else 
         
@@ -220,14 +233,17 @@ class Game {
                 let inputElement = document.getElementById('name-input');
                 console.log('Your name is ', inputElement.value);
                 this.hideScreen('input-name-div');
+
+                // Assigning game board into game board div
+                document.getElementById('game-board-div').innerHTML = this.currentTheam.gameBoard();
                 this.showScreen('game-board-div');
                 this.showScreen('top-display');
                 this.showScreen('bottom-display');
 
                 // Adding player information to the game object
-                this.player1Name = inputElement.value === '' ? Guest : inputElement.value;
+                this.player1Name = inputElement.value === '' ? "Guest" : inputElement.value;
                 this.player2Name = 'AI';
-                this.currentPlayerSymbol = 'x';
+                this.currentPlayer = 'x';
 
                 // this.enterName(event.target)
                 // TODO: After name is entred start the game. 
@@ -235,7 +251,7 @@ class Game {
                 let boardElement = document.getElementById('game-board');
                 boardElement.addEventListener('click', board.handleEvent.bind(board));
                 this.removeGameEventListener();
-                board.playerTurn = this.currentPlayerSymbol;
+                board.playerTurn = this.currentPlayer;
                 board.theam = this.currentTheam;
 
             break;
