@@ -39,4 +39,25 @@ class Theam {
     board() {
         alert('Board is not implemented');
     }
+
+    popupError() {
+        alert('Popup error is not implemented');
+    }
+
+    popupInfo() {
+        alert('Popup info is not implemented');
+    }
+
+    popupPause() {
+        alert('Popup Pause is not implemented');
+    }
+
+    popupWin() {
+        alert('Popup win is not implemented');
+    }
+
+    popupLose() {
+        alert('Popup Lose is not implemented');
+    }
+
 }

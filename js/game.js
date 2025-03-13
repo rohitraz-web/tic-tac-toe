@@ -9,12 +9,15 @@ class Game {
     gameTheam = 'theam1';
     theamImp = {}           // Imported theam object
 
+    // Storing information about current player
+
     // TODO: Implement the constructor of the game
     constructor() {
         
         this.init();
         this.gameEventListeners();
         this.theamImp = {};
+        this.state = Game.LOADING;
     }
 
 
@@ -147,18 +150,27 @@ class Game {
     popupEventListener(event) {
 
         let buttonClicked = false;
+        
 
         // Checking if home button is clicked navigate to main menu
         if (event.target.classList.contains('home-btn') || event.target.closest('.home-btn')) {
             buttonClicked = true;
             this.hideScreens();
             this.showScreen('main-menu');
-        }
+        }else 
 
         // Checking if restart button is clicked restarting the game
         if (event.target.classList.contains('restart-btn') || event.target.closest('.restart-btn')) {
             console.log('Restart button clicked');
+            this.restartGame();
+        }else 
+        
+        // Checking if play button get clicked
+        if (event.target.classList.contains('play-btn') || event.target.closest('.play-btn')) {
+            console.log('Play button get clicked');
+            buttonClicked = true;
         }
+
 
         if(buttonClicked)
             event.target.closest('#popup-msg-div').style.display = 'none';

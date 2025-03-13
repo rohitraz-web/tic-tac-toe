@@ -101,10 +101,11 @@ class TheamImp extends Theam {
     // 4. WIN
     // 5. LOSE
 
-    popupMessage() {
+    popupMessage(msg="") {
         return `<div class='popup-msg-div' id='popup-msg-div'>
+            
             <div class='msg error-msg'>
-                <span class='popup-header'>Oops!</span><p class='popup-content'>Game over, but you're not out!</p>
+                <span class='popup-header'>Oops!</span><p class='popup-content'>${ msg===undefined ||msg==="" ? "Game over, but you're not out!" : msg }</p>
                 <div class='btn-div'>
                     <div class="home-btn">
                         <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor" class="size-5">
@@ -119,18 +120,128 @@ class TheamImp extends Theam {
                     </div>
                 </div>
             </div>
+
             <div class='msg info-msg'>
-            
+                <span class='popup-header'>Info</span><p class='popup-content'>${ msg===undefined ||msg==="" ? "" : msg }</p>
+                <div class='btn-div'>
+                    <div class="play-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+                        </svg>
+                    </div>
+                    <div class="home-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="restart-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
+
             <div class='msg pause-msg'>
-            
+                <span class='popup-header'>Pause</span><p class='popup-content'>${ msg===undefined ||msg==="" ? "" : msg }</p>
+                <div class='btn-div'>
+                    <div class="play-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                            <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+                        </svg>
+                    </div>
+                    <div class="home-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="restart-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
+
             <div class='msg win-msg'>
-            
+                <span class='popup-header'>WINNER</span><p class='popup-content'>You win the Game🥳🎉</p>
+                <div class='btn-div'>
+                    <div class="home-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="restart-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
             <div class='msg lose-msg'>
-            
+                <span class='popup-header'>LOSE</span><p class='popup-content'>You lose 😭😭😭</p>
+                <div class='btn-div'>
+                    <div class="home-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                            <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 0 1 1.414 0l7 7A1 1 0 0 1 17 11h-1v6a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6H3a1 1 0 0 1-.707-1.707l7-7Z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="restart-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
         </div>`
+    }
+
+    popupError() {
+        let popupDiv = document.querySelector('#popup-msg-div');
+        if(popupDiv){
+            popupDiv.style.display = 'flex';
+            popupDiv.querySelectorAll('.msg').forEach(element => element.style.display = 'none');
+            popupDiv.querySelector('.error-msg').style.display = 'flex';
+        }
+    }
+
+    popupInfo() {
+        let popupDiv = document.querySelector('#popup-msg-div');
+        if(popupDiv){
+            popupDiv.style.display = 'flex';
+            popupDiv.querySelectorAll('.msg').forEach(element => element.style.display = 'none');
+            popupDiv.querySelector('.info-msg').style.display = 'flex';
+        }
+    }
+
+    popupPause() {
+        let popupDiv = document.querySelector('#popup-msg-div');
+        if(popupDiv){
+            popupDiv.style.display = 'flex';
+            popupDiv.querySelectorAll('.msg').forEach(element => element.style.display = 'none');
+            popupDiv.querySelector('.pause-msg').style.display = 'flex';
+        }
+    }
+
+    popupWin() {
+        let popupDiv = document.querySelector('#popup-msg-div');
+        if(popupDiv){
+            popupDiv.style.display = 'flex';
+            popupDiv.querySelectorAll('.msg').forEach(element => element.style.display = 'none');
+            popupDiv.querySelector('.win-msg').style.display = 'flex';
+        }
+    }
+
+    popupLose() {
+        let popupDiv = document.querySelector('#popup-msg-div');
+        if(popupDiv){
+            popupDiv.style.display = 'flex';
+            popupDiv.querySelectorAll('.msg').forEach(element => element.style.display = 'none');
+            popupDiv.querySelector('.lose-msg').style.display = 'flex';
+        }
     }
 }
