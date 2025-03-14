@@ -13,6 +13,12 @@ class Game {
     player1Name = '';           // Name of the primary player in the game.
     player2Name = '';           // Name of the secondary player in the game.
     currentPlayer = '';   // Symbol current player chosen Either 'x' or 'o'.
+    secondPlayer = '';
+    player1Score = 0;
+    player2Score = 0;
+    
+    // To know if player want to play with AI or not
+    playWithAI = false;
 
     // TODO: Implement the constructor of the game
     constructor() {
@@ -129,6 +135,7 @@ class Game {
 
     // TODO: Implement the method to restart the game.
     restartGame() {
+        
         // Restart the game with the no information change
         this.hideScreens();
         document.getElementById('game-board-div').innerHTML = this.currentTheam.gameBoard();
@@ -136,7 +143,7 @@ class Game {
         this.showScreen('top-display');
         this.showScreen('bottom-display');
 
-        let board = new Board(this);
+        let board = new Board(this, this.playWithAI);
         let boardElement = document.getElementById('game-board');
         boardElement.addEventListener('click', board.handleEvent.bind(board));
         this.removeGameEventListener();
@@ -244,10 +251,12 @@ class Game {
                 this.player1Name = inputElement.value === '' ? "Guest" : inputElement.value;
                 this.player2Name = 'AI';
                 this.currentPlayer = 'x';
+                this.secondPlayer = 'o';
 
                 // this.enterName(event.target)
                 // TODO: After name is entred start the game. 
-                let board = new Board(this);
+                this.playWithAI = true;
+                let board = new Board(this, this.playWithAI);
                 let boardElement = document.getElementById('game-board');
                 boardElement.addEventListener('click', board.handleEvent.bind(board));
                 this.removeGameEventListener();

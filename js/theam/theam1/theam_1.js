@@ -77,13 +77,15 @@ class TheamImp extends Theam {
         return `
             <div class="info-display game-screen" id="top-display">
                 <div>
-                    <span>Jon Doe</span>
+                    <span class="info-name">Jon Doe</span>
+                </div>
+                <div class="info-score-div">
+                    <span class="info-score" >Score:</span>
+                    <span class="info-score">0</span>
                 </div>
                 <div>
-                    <span>Score:</span>
-                    <span>0</span>
+                    <span class="info-symbol"></span>
                 </div>
-                <div></div>
             </div>
         `;
     }

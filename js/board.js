@@ -6,8 +6,9 @@ class Board {
     gameTurn = 0;
     theam = {};
 
-    constructor(gameObj) {
+    constructor(gameObj, playAI = false) {
         this.gameObj = gameObj;
+        this.playAI = playAI;
     }
 
     handleEvent(event) {
@@ -27,35 +28,45 @@ class Board {
         // TODO: Implement system to assign values to the tic tac toe cell. 
         let i = Math.floor(cellNo/3.0);
         let j = cellNo%3;
-        let oldPlayer = this.playerTurn;
+        // let oldPlayer = this.playerTurn;
 
         console.log("I and J ", i, j);
 
-        switch(this.playerTurn){
-            case 'x' :
-                this.gameArr[i][j] = 'x';
-                cell.innerHTML = this.theam.xSymbol();
-                this.playerTurn = 'o';
-                break;
-            
-            case 'o' :
-                this.gameArr[i][j] = 'o';
-                cell.innerHTML = this.theam.oSymbol();
-                this.playerTurn = 'x'; 
-                break;
-            default:
-                console.error('No player turn assigende');
-                return
+        if(this.playerTurn === this.gameObj.currentPlayer){
+                this.gameArr[i][j] = this.gameObj.currentPlayer;
+                cell.innerHTML = this.drawSymbol(this.gameObj.currentPlayer)
+                
+                if(this.playAI){
+                    this.checkWinner();
+                    this.gameTurn++;
+                    this.boardAILevel1()
+                    this.playerTurn = this.gameObj.currentPlayer;
+                    return;
+                }
+                this.playerTurn = this.gameObj.secondPlayer;
+
+        } else if(this.playerTurn === this.gameObj.secondPlayer) {
+            this.gameArr[i][j] = this.gameObj.secondPlayer;
+            cell.innerHTML = this.drawSymbol(this.gameObj.secondPlayer);
+            this.playerTurn = this.gameObj.currentPlayer;             
+        }
+        else {
+            return;
         }
         this.gameTurn++;
 
-        console.log("Game board State:" ,this.gameArr)
+        console.log("Game board State:" ,this.gameArr);
 
         if(this.gameTurn < 3){
             return;
         }
 
         this.checkWinner();
+    }
+
+    // Draw the HTML for symbol based on the player symbol
+    drawSymbol(playerSymbol){
+        return playerSymbol === 'x' ? this.theam.xSymbol() : this.theam.oSymbol();
     }
 
     // Function to check for the winner
@@ -125,10 +136,9 @@ class Board {
         let [i, j] = emptyCells[randomIndex];
 
         // Make the move for 'o'
-        this.gameArr[i][j] = 'o';
+        this.gameArr[i][j] = this.gameObj.secondPlayer;
         let cell = document.querySelector(`[data-cellno="${i * 3 + j + 1}"]`);
-        cell.innerHTML = this.theam.oSymbol();
-        this.playerTurn = 'x';
+        cell.innerHTML =  this.drawSymbol(this.gameObj.secondPlayer);
         this.gameTurn++;
 
         console.log("AI moved to: ", i, j);
