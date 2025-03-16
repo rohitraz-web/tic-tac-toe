@@ -37,8 +37,8 @@ class Board {
                 cell.innerHTML = this.drawSymbol(this.gameObj.currentPlayer)
                 
                 if(this.playAI){
-                    this.checkWinner();
                     this.gameTurn++;
+                    this.checkWinner();
                     this.boardAILevel1()
                     this.playerTurn = this.gameObj.currentPlayer;
                     return;
