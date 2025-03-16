@@ -12,8 +12,8 @@ class Game {
     // Storing information about current player
     player1Name = '';           // Name of the primary player in the game.
     player2Name = '';           // Name of the secondary player in the game.
-    currentPlayer = '';   // Symbol current player chosen Either 'x' or 'o'.
-    secondPlayer = '';
+    currentPlayer = '';         // Symbol current player chosen Either 'x' or 'o'.
+    secondPlayer = '';          // Symbol of second player
     player1Score = 0;
     player2Score = 0;
     
@@ -135,7 +135,7 @@ class Game {
 
     // TODO: Implement the method to restart the game.
     restartGame() {
-        
+
         // Restart the game with the no information change
         this.hideScreens();
         document.getElementById('game-board-div').innerHTML = this.currentTheam.gameBoard();
@@ -149,6 +149,7 @@ class Game {
         this.removeGameEventListener();
         board.playerTurn = this.currentPlayer;
         board.theam = this.currentTheam;
+        this.updateDisplayInformation();
     }
 
     // TODO: Add Event listener to the game
@@ -262,9 +263,16 @@ class Game {
                 this.removeGameEventListener();
                 board.playerTurn = this.currentPlayer;
                 board.theam = this.currentTheam;
+                this.updateDisplayInformation();
 
             break;
         }
+    }
+
+    // The method used to update the display information of the game
+    updateDisplayInformation() {
+        this.currentTheam.updateTopInformation(this.player1Name, this.player1Score, this.currentPlayer);
+        this.currentTheam.updateBottomInformation(this.player2Name, this.player2Score, this.secondPlayer);
     }
 
     enterName(element) {

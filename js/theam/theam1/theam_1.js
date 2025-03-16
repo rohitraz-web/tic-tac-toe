@@ -77,14 +77,14 @@ class TheamImp extends Theam {
         return `
             <div class="info-display game-screen" id="top-display">
                 <div>
-                    <span class="info-name">Jon Doe</span>
+                    <span class="info-name" id="info-name1">Jon Doe</span>
                 </div>
                 <div class="info-score-div">
                     <span class="info-score" >Score:</span>
-                    <span class="info-score">0</span>
+                    <span class="info-score" id="info-score1">0</span>
                 </div>
                 <div>
-                    <span class="info-symbol"></span>
+                    <span class="info-symbol" id="info-symbol1"></span>
                 </div>
             </div>
         `;
@@ -94,15 +94,27 @@ class TheamImp extends Theam {
         return `
             <div class="info-display game-screen" id="bottom-display">
                 <div>
-                    <span>Jon Doe2</span>
+                    <span class="info-name" id="info-name2">Jon Doe2</span>
                 </div>
                 <div>
-                    <span>Score:</span>
-                    <span>0</span>
+                    <span class="info-score">Score:</span>
+                    <span class="info-score" id="info-score2">0</span>
                 </div>
-                <div></div>
+                <div class="info-symbol" id="info-symbol2"></div>
             </div>
         `;
+    }
+
+    updateTopInformation(name, score, symbol){
+        document.getElementById('info-name1').innerHTML = name;
+        document.getElementById('info-score1').innerHTML = score;
+        document.getElementById('info-symbol1').innerHTML = symbol === 'x' ? this.xSymbol() : this.oSymbol();
+    }
+
+    updateBottomInformation(name, score, symbol){
+        document.getElementById('info-name2').innerHTML = name;
+        document.getElementById('info-score2').innerHTML = score;
+        document.getElementById('info-symbol2').innerHTML = symbol === 'x' ? this.xSymbol() : this.oSymbol();
     }
 
     xSymbol() {

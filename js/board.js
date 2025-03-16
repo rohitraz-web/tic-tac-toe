@@ -97,8 +97,10 @@ class Board {
                     // Pop out the message
                     if(this.gameArr[a[0]][a[1]] === this.gameObj.currentPlayer){
                         this.gameObj.currentTheam.popupWin();
+                        this.gameObj.player1Score++;
                     }else {
                         this.gameObj.currentTheam.popupLose();
+                        this.gameObj.player2Score++;
                     }
                 return;
             }
