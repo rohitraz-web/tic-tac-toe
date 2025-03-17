@@ -5,10 +5,12 @@ class Board {
     playerTurn = '';
     gameTurn = 0;
     theam = {};
+    resultPublished = false;
 
     constructor(gameObj, playAI = false) {
         this.gameObj = gameObj;
         this.playAI = playAI;
+        this.resultPublished = false;
     }
 
     handleEvent(event) {
@@ -38,6 +40,8 @@ class Board {
                 
                 if(this.playAI){
                     this.gameTurn++;
+                    if(this.resultPublished) 
+                        return;
                     this.checkWinner();
                     this.boardAILevel1()
                     this.playerTurn = this.gameObj.currentPlayer;
@@ -57,10 +61,10 @@ class Board {
 
         console.log("Game board State:" ,this.gameArr);
 
-        if(this.gameTurn < 3){
+        if(this.gameTurn < 3 || this.resultPublished){
             return;
         }
-
+        
         this.checkWinner();
     }
 
@@ -98,9 +102,14 @@ class Board {
                     if(this.gameArr[a[0]][a[1]] === this.gameObj.currentPlayer){
                         this.gameObj.currentTheam.popupWin();
                         this.gameObj.player1Score++;
+                        this.resultPublished = true;
+                        console.log("Score is updated: 1 ");
                     }else {
                         this.gameObj.currentTheam.popupLose();
                         this.gameObj.player2Score++;
+                        this.resultPublished = true;
+                        console.log("Score is updated: 1 ");
+
                     }
                 return;
             }
@@ -146,7 +155,7 @@ class Board {
         console.log("AI moved to: ", i, j);
         console.log("Game board State:", this.gameArr);
 
-        if (this.gameTurn >= 3) {
+        if (this.gameTurn >= 3 && !this.resultPublished) {
             this.checkWinner();
         }
     }
