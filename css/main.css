@@ -10,32 +10,14 @@
     width: 80%;
     height: 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 10px;
 }
 
-/* Responsive design breakpoints */
-
-@media (max-width: 1200px) {
-    .container-8 {
-        width: 90%;
-    }
-}
-
-@media (max-width: 992px) {
-    .container-8 {
-        width: 95%;
-    }
-}
-
-@media (max-width: 768px) {
+@media screen and (max-width: 600px) {
     .container-8 {
         width: 100%;
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 576px) {
-    .container-8 {
-        padding: 5px;
+        padding: 10px;
     }
 }

@@ -254,6 +254,11 @@ class Game {
                 this.currentPlayer = 'x';
                 this.secondPlayer = 'o';
 
+                // Setting all the game score to 0
+                this.player1Score = 0;
+                this.player2Score = 0;
+
+
                 // this.enterName(event.target)
                 // TODO: After name is entred start the game. 
                 this.playWithAI = true;
