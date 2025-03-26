@@ -22,9 +22,16 @@ class TheamImp extends Theam {
 
     // TODO: Implement input name class
     inputName() {
-        return `<div class='main-div game-screen' id='input-name-div'>
+        return `
+                <div class="back-button" id="back-button">
+                
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+                        <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1"/>
+                    </svg>
+                </div>
+                <div class='main-div game-screen' id='input-name-div'>
                     <div class='input-div'>
-                        <div class='name-input-set' id="pwai">
+                        <div class='name-input-set'>
                             <label for="name" id="name-label">Enter your name:</label>
                             <input type="text" name="name" id="name-input" />
                         </div>
@@ -33,6 +40,26 @@ class TheamImp extends Theam {
                         </div>
                     </div>
                 </div>`; 
+    }
+
+    // TODO: Implement select game mode screen play online or offline
+    selectGameMode() {
+        return  `
+                <div class='main-div game-screen' id='select-mode'>
+                    <div class='input-div'>
+                        <div class='name-input-set' id="pwf1">
+                            <label for="name" id="name-label">Enter your name:</label>
+                            <input type="text" name="name" id="player-name-input" />
+                        </div>
+                        <div class='name-input-set' id="pwf2">
+                            <label for="name" id="name-label">Enter friend's name:</label>
+                            <input type="text" name="name" id="friend-name-input" />
+                        </div>
+                        <div class='name-input-set' id="exit">
+                            <button id="friend-enter-name">Enter</button>
+                        </div>
+                    </div>
+                </div>`;
     }
 
     // TODO: Implement game board

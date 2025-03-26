@@ -11,6 +11,8 @@ class Board {
         this.gameObj = gameObj;
         this.playAI = playAI;
         this.resultPublished = false;
+        this.topElement = document.getElementById('top-display');
+        this.bottomElement = document.getElementById('bottom-display');
     }
 
     handleEvent(event) {
@@ -48,6 +50,7 @@ class Board {
                     return;
                 }
                 this.playerTurn = this.gameObj.secondPlayer;
+                this.setActivePlayer();
 
         } else if(this.playerTurn === this.gameObj.secondPlayer) {
             this.gameArr[i][j] = this.gameObj.secondPlayer;
@@ -55,8 +58,11 @@ class Board {
             this.playerTurn = this.gameObj.currentPlayer;             
         }
         else {
+            this.setActivePlayer();
             return;
+
         }
+        this.setActivePlayer();
         this.gameTurn++;
 
         console.log("Game board State:" ,this.gameArr);
@@ -66,6 +72,16 @@ class Board {
         }
         
         this.checkWinner();
+    }
+
+    setActivePlayer(){
+        if(this.playerTurn === 'o'){
+            this.topElement.classList.remove('active');
+            this.bottomElement.classList.add('active');
+        }else if(this.playerTurn === 'x'){
+            this.bottomElement.classList.remove('active');
+            this.topElement.classList.add('active');
+        }
     }
 
     // Draw the HTML for symbol based on the player symbol

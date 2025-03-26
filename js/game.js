@@ -91,6 +91,7 @@ class Game {
         gameHtml += this.currentTheam.inputName();
         gameHtml += this.currentTheam.gameBoardContainer();
         gameHtml += this.currentTheam.popupMessage();
+        gameHtml += this.currentTheam.selectGameMode();
         gameContainer.innerHTML = gameHtml;
         gameContainer.insertAdjacentHTML('afterbegin', this.currentTheam.topDisplay())
         gameContainer.insertAdjacentHTML('beforeend', this.currentTheam.bottomDisplay())
@@ -126,6 +127,16 @@ class Game {
         console.log('Element id is', elementid)
         let element = document.getElementById(elementid);
         element.style.display = 'flex';
+    }
+
+    // TODO: Implement the method to show back button
+    showBackButton(show) {
+        let backButton = document.getElementById('back-button');
+        if(show){
+            backButton.style.display = 'flex';
+        }else {
+            backButton.style.display = 'none';
+        }
     }
 
     // TODO: Implement the method to start the game.
@@ -204,22 +215,30 @@ class Game {
     // TODO: Implement the navigation of game
     navigateGame(event) {
         console.log(event.target.id);
-        let menuId = event.target.id; 
+        let menuId = event.target.id;
+        
+        if(event.target.closest('.back-button')){
+            menuId = 'back-button';
+        }
 
         // Chosing an option to navigate
         
         // TODO: Implement the navigation menu
         switch(menuId){
             case 'pwai' :
-                // TODO: Create board ask player name if already not exist and start the game 
+                // Create board ask player name if already not exist and start the game 
                 this.hideScreens('game-screen');
                 this.showScreen('input-name-div');
+                this.showBackButton(true);
 
             break;
 
             case 'pwf' :
                 // TODO: Create board ask player's name if already not exist for both player and start the game
-                
+                this.hideScreens('game-screen');
+                this.showScreen('select-mode');
+                this.showBackButton(true);
+
             break;
 
             case 'settings' :
@@ -234,6 +253,7 @@ class Game {
 
             case 'exit':
                 //TODO: Save player name, Game state and exit the game 
+                window.location.href = 'https://games.razsoft.in';
             break;
 
             case 'ai-enter-name':
@@ -241,6 +261,7 @@ class Game {
                 let inputElement = document.getElementById('name-input');
                 console.log('Your name is ', inputElement.value);
                 this.hideScreen('input-name-div');
+                this.showBackButton(false);
 
                 // Assigning game board into game board div
                 document.getElementById('game-board-div').innerHTML = this.currentTheam.gameBoard();
@@ -254,13 +275,19 @@ class Game {
                 this.currentPlayer = 'x';
                 this.secondPlayer = 'o';
 
+                // Toggling the active class for the top-display element
+                let topDisplayElement = document.getElementById('top-display');
+                if (topDisplayElement) {
+                    topDisplayElement.classList.add('active');
+                }
+
                 // Setting all the game score to 0
                 this.player1Score = 0;
                 this.player2Score = 0;
 
 
                 // this.enterName(event.target)
-                // TODO: After name is entred start the game. 
+                // After name is entred start the game. 
                 this.playWithAI = true;
                 let board = new Board(this, this.playWithAI);
                 let boardElement = document.getElementById('game-board');
@@ -270,6 +297,56 @@ class Game {
                 board.theam = this.currentTheam;
                 this.updateDisplayInformation();
 
+
+
+            break;
+
+            case 'friend-enter-name':
+                // TODO: To enter player name who is playing game against AI
+                let playerInputElement = document.getElementById('player-name-input');
+                console.log('Your name is ', playerInputElement);
+                
+                let friendInputElement = document.getElementById('friend-name-input');
+                console.log('Your name is ', friendInputElement);
+
+                this.hideScreen('select-mode');
+                this.showBackButton(false);
+
+                // Assigning game board into game board div
+                document.getElementById('game-board-div').innerHTML = this.currentTheam.gameBoard();
+                this.showScreen('game-board-div');
+                this.showScreen('top-display');
+                this.showScreen('bottom-display');
+
+                // Adding player information to the game object
+                this.player1Name = playerInputElement.value === '' ? "Guest" : playerInputElement.value;
+                this.player2Name = friendInputElement.value === '' ? "Guest2" : friendInputElement.value;
+                this.currentPlayer = 'x';
+                this.secondPlayer = 'o';
+
+                // Setting all the game score to 0
+                this.player1Score = 0;
+                this.player2Score = 0;
+
+
+                // this.enterName(event.target)
+                // TODO: After name is entred start the game. 
+                this.playWithAI = false;
+                let board2 = new Board(this, this.playWithAI);
+                let boardElement2 = document.getElementById('game-board');
+                boardElement2.addEventListener('click', board2.handleEvent.bind(board2));
+                this.removeGameEventListener();
+                board2.playerTurn = this.currentPlayer;
+                board2.theam = this.currentTheam;
+                this.updateDisplayInformation();
+
+            break;
+
+            case 'back-button' :
+                this.hideScreen('input-name-div');
+                this.showBackButton(false);
+                this.hideScreens('game-screen');
+                this.showScreen('main-menu');
             break;
         }
     }
