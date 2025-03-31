@@ -19,6 +19,7 @@ class Game {
     
     // To know if player want to play with AI or not
     playWithAI = false;
+    gameAiLevel = 1;
 
     // TODO: Implement the constructor of the game
     constructor() {
@@ -154,7 +155,7 @@ class Game {
         this.showScreen('top-display');
         this.showScreen('bottom-display');
 
-        let board = new Board(this, this.playWithAI);
+        let board = new Board(this, this.playWithAI, this.gameAiLevel);
         let boardElement = document.getElementById('game-board');
         boardElement.addEventListener('click', board.handleEvent.bind(board));
         this.removeGameEventListener();
