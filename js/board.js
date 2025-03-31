@@ -6,13 +6,30 @@ class Board {
     gameTurn = 0;
     theam = {};
     resultPublished = false;
+    emptyCells = [];
 
-    constructor(gameObj, playAI = false) {
+    // list of all the winning combination in the game
+    winningCombinations = [
+        // Rows
+        [ [0, 0], [0, 1], [0, 2] ],
+        [ [1, 0], [1, 1], [1, 2] ],
+        [ [2, 0], [2, 1], [2, 2] ],
+        // Columns
+        [ [0, 0], [1, 0], [2, 0] ],
+        [ [0, 1], [1, 1], [2, 1] ],
+        [ [0, 2], [1, 2], [2, 2] ],
+        // Diagonals
+        [ [0, 0], [1, 1], [2, 2] ],
+        [ [0, 2], [1, 1], [2, 0] ]
+    ];
+
+    constructor(gameObj, playAI = false, aiLevel = 2) {
         this.gameObj = gameObj;
         this.playAI = playAI;
         this.resultPublished = false;
         this.topElement = document.getElementById('top-display');
         this.bottomElement = document.getElementById('bottom-display');
+        this.aiLevel = aiLevel;
     }
 
     handleEvent(event) {
@@ -45,7 +62,7 @@ class Board {
                     if(this.resultPublished) 
                         return;
                     this.checkWinner();
-                    this.boardAILevel1()
+                    this.playBoardAI();
                     this.playerTurn = this.gameObj.currentPlayer;
                     return;
                 }
@@ -91,21 +108,8 @@ class Board {
 
     // Function to check for the winner
     checkWinner() {
-        const winningCombinations = [
-            // Rows
-            [ [0, 0], [0, 1], [0, 2] ],
-            [ [1, 0], [1, 1], [1, 2] ],
-            [ [2, 0], [2, 1], [2, 2] ],
-            // Columns
-            [ [0, 0], [1, 0], [2, 0] ],
-            [ [0, 1], [1, 1], [2, 1] ],
-            [ [0, 2], [1, 2], [2, 2] ],
-            // Diagonals
-            [ [0, 0], [1, 1], [2, 2] ],
-            [ [0, 2], [1, 1], [2, 0] ]
-        ];
 
-        for (let combination of winningCombinations) {
+        for (let combination of this.winningCombinations) {
             const [a, b, c] = combination;
             if (this.gameArr[a[0]][a[1]] && 
                 this.gameArr[a[0]][a[1]] === this.gameArr[b[0]][b[1]] && 
@@ -142,26 +146,43 @@ class Board {
         
     }
 
-    // This is level 1 AI for the game and make a random move on the board.
-    boardAILevel1(){
-        // Simple AI to make a move
-        let emptyCells = [];
+    // AI for the game. 
+    playBoardAI(){
+        this.emptyCells = [];        // Total empty cells on the board
+        let move = [];              // The AI move [i,j]
+
+        // Finding all the empty cells. 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (this.gameArr[i][j] === '') {
-                    emptyCells.push([i, j]);
+                    this.emptyCells.push([i, j]);
                 }
             }
         }
 
-        if (emptyCells.length === 0) {
-            return; // No moves left
+        // Return from function no more moves are left.
+        if(this.emptyCells.length === 0)
+            return ;
+
+        let i = undefined;
+        let j = undefined;
+        
+        if(this.aiLevel === 1) {
+            let randomIndex = Math.floor(Math.random() * emptyCells.length);
+            i = emptyCells[randomIndex][0];
+            j = emptyCells[randomIndex][1];
         }
+        else if(this.aiLevel === 2){
+            [i, j] = this.boardAILevel2();
+        }
+        // alert("Places are"+i+j);
 
-        // Randomly select an empty cell
-        let randomIndex = Math.floor(Math.random() * emptyCells.length);
-        let [i, j] = emptyCells[randomIndex];
+        if(typeof i !== "undefined" && typeof j !== "undefined"){
+            this.moveBoardAI(i,j);
+        }
+    }
 
+    moveBoardAI(i, j) {
         // Make the move for 'o'
         this.gameArr[i][j] = this.gameObj.secondPlayer;
         let cell = document.querySelector(`[data-cellno="${i * 3 + j + 1}"]`);
@@ -176,7 +197,60 @@ class Board {
         }
     }
 
+    checkWinnerForAI() {
+
+        for (let combination of this.winningCombinations) {
+            const [a, b, c] = combination;
+            if (this.gameArr[a[0]][a[1]] && 
+                this.gameArr[a[0]][a[1]] === this.gameArr[b[0]][b[1]] && 
+                this.gameArr[a[0]][a[1]] === this.gameArr[c[0]][c[1]]) {
+                return this.gameArr[a[0]][a[1]];
+            }
+        }
+
+        if(this.emptyCells.length === 0)
+            return 'tie';
+    
+        return null;
+    }
+
+
     /*
+    // This is level 1 AI for the game and make a random move on the board.
+    boardAILevel1(){
+        // Simple AI to make a move
+        // let emptyCells = [];
+        // for (let i = 0; i < 3; i++) {
+        //     for (let j = 0; j < 3; j++) {
+        //         if (this.gameArr[i][j] === '') {
+        //             emptyCells.push([i, j]);
+        //         }
+        //     }
+        // }
+
+        // if (emptyCells.length === 0) {
+        //     return; // No moves left
+        // }
+
+        // Randomly select an empty cell
+        // let randomIndex = Math.floor(Math.random() * emptyCells.length);
+        // let [i, j] = emptyCells[randomIndex];
+
+        // Make the move for 'o'
+        this.gameArr[i][j] = this.gameObj.secondPlayer;
+        let cell = document.querySelector(`[data-cellno="${i * 3 + j + 1}"]`);
+        cell.innerHTML =  this.drawSymbol(this.gameObj.secondPlayer);
+        this.gameTurn++;
+
+        console.log("AI moved to: ", i, j);
+        console.log("Game board State:", this.gameArr);
+
+        if (this.gameTurn >= 3 && !this.resultPublished) {
+            this.checkWinner();
+        }
+    }
+    */    
+
     // This is Level 2 AI that will block any move by user's wining chance
     boardAILevel2() {
         // Advanced AI to block the player's winning move or make the best move
@@ -190,7 +264,7 @@ class Board {
                 'tie': 0
             };
 
-            let result = checkWinnerForAI(board);
+            let result = this.checkWinnerForAI();
             if (result !== null) {
                 return scores[result];
             }
@@ -201,11 +275,11 @@ class Board {
                     for (let j = 0; j < 3; j++) {
                         if (board[i][j] === '') {
                             board[i][j] = 'o';
-                            let eval = minimax(board, depth + 1, false);
+                            let _eval = minimax(board, depth + 1, false);
                             board[i][j] = '';
-                            maxEval = Math.max(eval, maxEval);
-                            if (depth === 0 && eval > bestScore) {
-                                bestScore = eval;
+                            maxEval = Math.max(_eval, maxEval);
+                            if (depth === 0 && _eval > bestScore) {
+                                bestScore = _eval;
                                 bestMove = { i, j };
                             }
                         }
@@ -218,9 +292,9 @@ class Board {
                     for (let j = 0; j < 3; j++) {
                         if (board[i][j] === '') {
                             board[i][j] = 'x';
-                            let eval = minimax(board, depth + 1, true);
+                            let _eval = minimax(board, depth + 1, true);
                             board[i][j] = '';
-                            minEval = Math.min(eval, minEval);
+                            minEval = Math.min(_eval, minEval);
                         }
                     }
                 }
@@ -228,62 +302,54 @@ class Board {
             }
         };
 
-        const checkWinnerForAI = (board) => {
-            const winningCombinations = [
-                [ [0, 0], [0, 1], [0, 2] ],
-                [ [1, 0], [1, 1], [1, 2] ],
-                [ [2, 0], [2, 1], [2, 2] ],
-                [ [0, 0], [1, 0], [2, 0] ],
-                [ [0, 1], [1, 1], [2, 1] ],
-                [ [0, 2], [1, 2], [2, 2] ],
-                [ [0, 0], [1, 1], [2, 2] ],
-                [ [0, 2], [1, 1], [2, 0] ]
-            ];
+        // const checkWinnerForAI = (board) => {
 
-            for (let combination of winningCombinations) {
-                const [a, b, c] = combination;
-                if (board[a[0]][a[1]] && 
-                    board[a[0]][a[1]] === board[b[0]][b[1]] && 
-                    board[a[0]][a[1]] === board[c[0]][c[1]]) {
-                    return board[a[0]][a[1]];
-                }
-            }
+        //     // for (let combination of this.winningCombinations) {
+        //     //     const [a, b, c] = combination;
+        //     //     if (board[a[0]][a[1]] && 
+        //     //         board[a[0]][a[1]] === board[b[0]][b[1]] && 
+        //     //         board[a[0]][a[1]] === board[c[0]][c[1]]) {
+        //     //         return board[a[0]][a[1]];
+        //     //     }
+        //     // }
 
-            let openSpots = 0;
-            for (let i = 0; i < 3; i++) {
-                for (let j = 0; j < 3; j++) {
-                    if (board[i][j] === '') {
-                        openSpots++;
-                    }
-                }
-            }
+        //     // let openSpots = 0;
+        //     // for (let i = 0; i < 3; i++) {
+        //     //     for (let j = 0; j < 3; j++) {
+        //     //         if (board[i][j] === '') {
+        //     //             openSpots++;
+        //     //         }
+        //     //     }
+        //     // }
 
-            if (openSpots === 0) {
-                return 'tie';
-            }
+        //     if (openSpots === 0) {
+        //         return 'tie';
+        //     }
 
-            return null;
-        };
+        //     return null;
+        // };
 
         minimax(this.gameArr, 0, true);
 
         if (bestMove) {
-            let { i, j } = bestMove;
-            this.gameArr[i][j] = 'o';
-            let cell = document.querySelector(`[data-cellno="${i * 3 + j + 1}"]`);
-            cell.innerHTML = this.theam.oSymbol();
-            this.playerTurn = 'x';
-            this.gameTurn++;
+            // let { i, j } = bestMove;
+            // this.gameArr[i][j] = 'o';
+            // let cell = document.querySelector(`[data-cellno="${i * 3 + j + 1}"]`);
+            // cell.innerHTML = this.theam.oSymbol();
+            // this.playerTurn = 'x';
+            // this.gameTurn++;
 
-            console.log("AI moved to: ", i, j);
-            console.log("Game board State:", this.gameArr);
+            // console.log("AI moved to: ", i, j);
+            // console.log("Game board State:", this.gameArr);
 
-            if (this.gameTurn >= 3) {
-                this.checkWinner();
-            }
+            // if (this.gameTurn >= 3) {
+            //     this.checkWinner();
+            // }
+            return [bestMove.i, bestMove.j];
         }
     }
 
+/*
     // This is the level 3rd AI it not only blocks the move but also place it's move to wining position
     boardAILevel3() {
         // Expert AI to block the player's winning move and make the best move to win
