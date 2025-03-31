@@ -23,7 +23,7 @@ class Board {
         [ [0, 2], [1, 1], [2, 0] ]
     ];
 
-    constructor(gameObj, playAI = false, aiLevel = 2) {
+    constructor(gameObj, playAI = false, aiLevel = 3) {
         this.gameObj = gameObj;
         this.playAI = playAI;
         this.resultPublished = false;
@@ -174,6 +174,8 @@ class Board {
         }
         else if(this.aiLevel === 2){
             [i, j] = this.boardAILevel2();
+        }else if(this.aiLevel ==3){
+            [i, j] = this.boardAILevel3();
         }
         // alert("Places are"+i+j);
 
@@ -349,7 +351,6 @@ class Board {
         }
     }
 
-/*
     // This is the level 3rd AI it not only blocks the move but also place it's move to wining position
     boardAILevel3() {
         // Expert AI to block the player's winning move and make the best move to win
@@ -363,7 +364,7 @@ class Board {
             'tie': 0
             };
 
-            let result = checkWinnerForAI(board);
+            let result = this.checkWinnerForAI();
             if (result !== null) {
             return scores[result];
             }
@@ -374,11 +375,11 @@ class Board {
                 for (let j = 0; j < 3; j++) {
                 if (board[i][j] === '') {
                     board[i][j] = 'o';
-                    let eval = minimax(board, depth + 1, false);
+                    let _eval = minimax(board, depth + 1, false);
                     board[i][j] = '';
-                    maxEval = Math.max(eval, maxEval);
-                    if (depth === 0 && eval > bestScore) {
-                    bestScore = eval;
+                    maxEval = Math.max(_eval, maxEval);
+                    if (depth === 0 && _eval > bestScore) {
+                    bestScore = _eval;
                     bestMove = { i, j };
                     }
                 }
@@ -391,9 +392,9 @@ class Board {
                 for (let j = 0; j < 3; j++) {
                 if (board[i][j] === '') {
                     board[i][j] = 'x';
-                    let eval = minimax(board, depth + 1, true);
+                    let _eval = minimax(board, depth + 1, true);
                     board[i][j] = '';
-                    minEval = Math.min(eval, minEval);
+                    minEval = Math.min(_eval, minEval);
                 }
                 }
             }
@@ -401,60 +402,60 @@ class Board {
             }
         };
 
-        const checkWinnerForAI = (board) => {
-            const winningCombinations = [
-            [ [0, 0], [0, 1], [0, 2] ],
-            [ [1, 0], [1, 1], [1, 2] ],
-            [ [2, 0], [2, 1], [2, 2] ],
-            [ [0, 0], [1, 0], [2, 0] ],
-            [ [0, 1], [1, 1], [2, 1] ],
-            [ [0, 2], [1, 2], [2, 2] ],
-            [ [0, 0], [1, 1], [2, 2] ],
-            [ [0, 2], [1, 1], [2, 0] ]
-            ];
+        // const checkWinnerForAI = (board) => {
+        //     const winningCombinations = [
+        //     [ [0, 0], [0, 1], [0, 2] ],
+        //     [ [1, 0], [1, 1], [1, 2] ],
+        //     [ [2, 0], [2, 1], [2, 2] ],
+        //     [ [0, 0], [1, 0], [2, 0] ],
+        //     [ [0, 1], [1, 1], [2, 1] ],
+        //     [ [0, 2], [1, 2], [2, 2] ],
+        //     [ [0, 0], [1, 1], [2, 2] ],
+        //     [ [0, 2], [1, 1], [2, 0] ]
+        //     ];
 
-            for (let combination of winningCombinations) {
-            const [a, b, c] = combination;
-            if (board[a[0]][a[1]] && 
-                board[a[0]][a[1]] === board[b[0]][b[1]] && 
-                board[a[0]][a[1]] === board[c[0]][c[1]]) {
-                return board[a[0]][a[1]];
-            }
-            }
+        //     for (let combination of winningCombinations) {
+        //     const [a, b, c] = combination;
+        //     if (board[a[0]][a[1]] && 
+        //         board[a[0]][a[1]] === board[b[0]][b[1]] && 
+        //         board[a[0]][a[1]] === board[c[0]][c[1]]) {
+        //         return board[a[0]][a[1]];
+        //     }
+        //     }
 
-            let openSpots = 0;
-            for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 3; j++) {
-                if (board[i][j] === '') {
-                openSpots++;
-                }
-            }
-            }
+        //     let openSpots = 0;
+        //     for (let i = 0; i < 3; i++) {
+        //     for (let j = 0; j < 3; j++) {
+        //         if (board[i][j] === '') {
+        //         openSpots++;
+        //         }
+        //     }
+        //     }
 
-            if (openSpots === 0) {
-            return 'tie';
-            }
+        //     if (openSpots === 0) {
+        //     return 'tie';
+        //     }
 
-            return null;
-        };
+        //     return null;
+        // };
 
         minimax(this.gameArr, 0, true);
 
         if (bestMove) {
-            let { i, j } = bestMove;
-            this.gameArr[i][j] = 'o';
-            let cell = document.querySelector(`[data-cellno="${i * 3 + j + 1}"]`);
-            cell.innerHTML = this.theam.oSymbol();
-            this.playerTurn = 'x';
-            this.gameTurn++;
+            // let { i, j } = bestMove;
+            // this.gameArr[i][j] = 'o';
+            // let cell = document.querySelector(`[data-cellno="${i * 3 + j + 1}"]`);
+            // cell.innerHTML = this.theam.oSymbol();
+            // this.playerTurn = 'x';
+            // this.gameTurn++;
 
-            console.log("AI moved to: ", i, j);
-            console.log("Game board State:", this.gameArr);
+            // console.log("AI moved to: ", i, j);
+            // console.log("Game board State:", this.gameArr);
 
-            if (this.gameTurn >= 3) {
-            this.checkWinner();
-            }
+            // if (this.gameTurn >= 3) {
+            // this.checkWinner();
+            // }
+            return [bestMove.i, bestMove.j];
         }
     } 
-    */
 }
